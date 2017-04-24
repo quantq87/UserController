@@ -9,7 +9,7 @@
 import UIKit
 
 
-let API_BASE_URL = "http://139.59.109.83:9001/api"
+let API_BASE_URL = "http://103.18.4.14:9001/api"
 
 open class UserController: NSObject {
     
@@ -30,32 +30,25 @@ open class UserController: NSObject {
     
     public func validateAccount(email: String, completion:@escaping ((_ isSuccessful: Bool, _ isValid: Bool,_ msgError: String) -> Void)) {
         userServices.validateAccount(email : "quantq777@gmail.com", completion:{(isSuccess, responseObject) in
-            print("Call Api completion")
             completion(isSuccess, false, "")
         })
     }
     
     public func registerAccount(parameter: NSDictionary, completion:@escaping ((_ isSuccessful: Bool, _ isCreated: Bool,_ msgError: String) -> Void)) {
-        print(parameter.dictionaryToString())
-        
-//        userServices.registerAccount(parameter : parameter, completion:{(isSuccess, responseObject) in
-//            print("Call Api completion")
-//            completion(isSuccess, false, "")
-//        })
+        userServices.registerAccount(parameter : parameter, completion:{(isSuccess, responseObject) in
+            completion(isSuccess, false, "")
+        })
     }
 }
 
-
 extension NSDictionary {
     func dictionaryToString () -> String {
-        var result: String = ""
-        for key in self.allKeys {
-            result = result.appending(key as! String)
-            result = result.appending(":")
-            if let value = self[key] {
-                result = result.appending(value as! String)
-            }
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            return String(data: jsonData, encoding: .utf8)!
+        } catch {
+            print(error.localizedDescription)
         }
-        return result
+        return ""
     }
 }

@@ -44,7 +44,7 @@ final class UserServices: HttpController, HttpControllerDelegate {
     
     public func registerAccount(parameter: NSDictionary, completion: @escaping CompleteHttpBlock) {
         completeHandler[ValidateAccountIdentify] = completion
-        doRequestGETWithHttp(parameter: parameter, domain: "/register", identify: ValidateAccountIdentify)
+        doRequestPOSTWithHttp(parameter: parameter, domain: "/auth/register", identify: ValidateAccountIdentify)
     }
     
     
